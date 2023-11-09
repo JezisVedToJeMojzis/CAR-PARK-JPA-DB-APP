@@ -1,95 +1,49 @@
-# B-VSA LS 21/22 - Semestrálny projekt 1 - Skupina B
+# Car park JPA DB application
 
 ![Java 1.8](https://img.shields.io/badge/Java-1.8-blue)
 ![EclipseLink 2.7.10](https://img.shields.io/badge/EclipseLink-2.7.10-green)
 [![Public domain](https://img.shields.io/badge/License-Unlicense-lightgray)](https://unlicense.org)
 
-Cieľom 1. semestrálneho projektu je naprogramovať aplikáciu rezervačného systému parkovacích domov využívajúcu
-technológiu JPA s pripojením na SQL databázu. Aplikácia poskytuje konzolové rozhranie (CLI) pre prácu používateľa.
-Rozhranie má byť jednoduché a poskytovať prístup ku všetkým funkcionalitám aplikácie. Môžte sa inšpirovať projektami z
-cvičení.
 
-## Entity
+## Entities
 
-Aplikácia musí pracovať s entitami:
+Application works with these entities:
 
-- **Parkovací dom** - má atribúty názov, adresa, cena za hodinu parkovania
-- **Poschodie parkovacieho domu** - obsahuje identifikačné označenie poschodia
-- **Parkovacie miesto** - obsahuje identifikačné označenie miesta
-- **Auto** - obsahuje atribúty značka, model, EČV, farba
-- **Zákazník** - obsahuje atribúty meno, priezvisko, email
+- **Car park** - has attributes name, address, price per hour of parking
+- **Car park floor** - contains the identification mark of the floor
+- **Parking spot** - contains the identification mark of the place
+- **Car** - contains attributes brand, model, VAT number, color
+- **User** - contains attributes name, surname, email
 
-### Asociácie
+### Associations
 
-Medzi implementovanými entitami musia byť dodržané vzťahy nasledovne:
+The following relationships exist between the implemented entities:
 
-* Parkovací dom obsahuje viacero poschodí.
-* Poschodie parkovacieho domu obsahuje viacero parkovacích miest.
-* Parkovacie miesto obslúži viacero áut, avšak maximálne jedno pre daný čas.
-* Každé auta má práve jedného vlastníka/zákazníka.
-* Auto môže byť zaparkované iba na jednom parkovacom mieste v danom čase.
-* Ktoré auto je zaparkované na ktorom parkovacom mieste je definované rezerváciou, ktorá obsahuje čas začiatku, čas
-  ukončenia parkovania a celkovú cenu za parkovanie. Maximálna dĺžka parkovania nie je určená. Účtuje sa každá začatá
-  hodina.
+* The car park contains several floors.
+* The floor of the car park contains several parking spaces.
+* The parking space serves several cars, but a maximum of one for the given time.
+* Each car has exactly one owner/user.
+* The car can only be parked in one parking spot at a given time.
+* Which car is parked in which parking spot is defined by the reservation, which includes the start time, time
+   parking terminations and the total price for parking. The maximum length of parking is not determined. Every start is charged
+   lesson.
 
-## Funkcionalita
+## Functionality
 
-Aplikácia musí zabezpečiť CRUD operácie nad všetkými entitami spomenuté vyššie. Taktiež musí umožniť používateľovi
-rezervovať si parkovacie miesto pre vlastné auto. Rezervácia môže byť vytvorená iba na špecifický čas. Po odídení z
-parkovacieho miesta sa rezervácia ukončí a zapíše sa čas ukončenia rezervácie a vypočíta sa celková cena za rezerváciu
-parkovacieho miesta.
+The application provides CRUD operations on all entities mentioned above. It must also enable the user
+reserve a parking spot for your own car. A reservation can only be made for a specific time. After leaving the
+parking spot, the reservation is terminated and the time of termination of the reservation is entered and the total price for the reservation is calculated
+parking spot.
 
-Aplikácia musí umožniť používateľovi zobrazenie zoznamu rezervácií za špecifický deň a parkovacie miesto, zoznam svojich
-aktívnych rezervácií a taktiež musí obsahovať možnosť kontroly obsadenosti parkovacieho domu.
+The application must allow the user to display a list of reservations for a specific day and parking spot, a list of his
+of active reservations and must also include the possibility of checking the occupancy of the car park.
 
-Pri vymazaní parkovacieho domu musia byť vymazané aj všetky jeho poschodia aj parkovacie miesta. Rovnako ak je vymazaný
-zákazník musia byť vymazané aj jeho autá.
+When deleting a car park, all its floors and parking spots must also be deleted. Same as deleted
+the users's cars must also be deleted.
 
-## Doplňujúce kritéria
+## Car types
 
-### Skupina B
+The application contains the functionality **types of cars** that can park in the parking garage (e.g. electric, LPG, etc.). Individual
+parking spaces contain the attribute for which type of car they are intended, and also each car has a defined type. A car type is a separate entity. When creating a reservation, there is a check where only a car of the same type as the one specified in the parking space can park in it, otherwise the reservation will
+rejected.
 
-Rozšírte aplikáciu o **typy áut**, ktoré môžu v parkovacom dome parkovať (napr. elektrické, LPG a pod.). Jednotlivé
-parkovacie miesta obsahujú atribút, pre ktorý typ auta sú určené a taktiež každé auto má definovaný typ. Implementujte
-riešenie tak aby typ auta bola samostatný entita. Pri vytvorení rezervácie musí byť implementovaná kontrola, kde iba
-auto rovnakého typu ako je určené v parkovacom mieste na ňom môže parkovať, v opačnom prípade bude rezervácia
-odmietnutá.
-
-## Hodnotenie
-
-**Zadanie je hodnotené 20 bodmi. Vypracovanie je nutné odovzdať do 30.3.2022 23:59.**
-
-Zadanie si naklonujte z repozitára zadania. Svoje vypracovanie nahrajte do vášho repozitára pre toto zadanie pomocou
-programu Git (git commit + git push). Vypracovanie môžete “pusho-vať” priebežne. Pri vypracovaní
-použite [poskytnutú sadu dát](src/test/resources/test-data.csv) pre otestovanie dodržania zadania.
-
-**Neupravujte pom.xml**, okrem pridania závislosti pre driver databázy podľa vlastného výberu. Povolené SQL databázy:
-
-- MySQL
-- OracleDB
-- Derby
-- PostgreSQL
-- H2 (s databázou do súboru)
-
-**Názov `persistence-unit`** v súbore [persistence.xml](src/main/resources/META-INF/persistence.xml) **nemeňte**. Pre
-spustenie aplikácie použite metódu main v triede [Project1](src/main/java/sk/stuba/fei/uim/vsa/pr1b/Project1.java).
-Použitá databáza sa musí volať **VSA_PR1** a musí mať vytvoreného používateľa s **menom 'vsa' a heslom 'vsa'**. Pre
-tieto účeli môžte využiť súbor [starter.sql](starter.sql).
-
-Jednotlivé tabuľky pre entity musia byť uppercase a v anglickom jazyku:
-
-- Parkovací dom = CAR_PARK
-- Poschodie parkovacieho domu = CAR_PARK_FLOOR 
-- Parkovacie miesto = PARKING_SPOT
-- Auto = CAR
-- Zákazník = USER
-- Rezervácia = RESERVATION
-
-Implementujte neabstraktnú triedu, ktorá bude dediť od triedy `AbstractCarParkService` a tak implementovať jej
-abstraktné metódy a preťažovať konštruktor. Táto trieda má slúžiť ako API (alebo ako fasáda) pre funkcionality aplikácie
-a testy hodnotenia budú využívať jej implementáciu.
-
-Hodnotiť sa bude iba master/main branch. Kvôli testom a zrýchleniu opravovania je nutné dodržať pokyny a štruktúru
-projektu, ako je stanovené v zadaní! Iba kód poslednej verzie vypracovania (t.j. z posledného commitu) do termínu
-odovzdania sa berie do úvahy. Okrem testov sa bude kód a funkcionalita kontrolovať aj manuálne. Hodnotiť sa budú iba
-skompilovateľné a spustiteľné riešenia.
