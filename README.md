@@ -30,16 +30,14 @@ The following relationships exist between the implemented entities:
 
 ## Functionality
 
-The application provides CRUD operations on all entities mentioned above. It must also enable the user
-reserve a parking spot for your own car. A reservation can only be made for a specific time. After leaving the
+The application provides CRUD operations on all entities mentioned above. It also enables the user
+reserve a parking spot for their own car. A reservation can only be made for a specific time. After leaving the
 parking spot, the reservation is terminated and the time of termination of the reservation is entered and the total price for the reservation is calculated
 parking spot.
 
-The application must allow the user to display a list of reservations for a specific day and parking spot, a list of his
-of active reservations and must also include the possibility of checking the occupancy of the car park.
+The application allows the user to display a list of reservations for a specific day and parking spot, a list of their active reservations and also includes the possibility of checking the occupancy of the car park.
 
-When deleting a car park, all its floors and parking spots must also be deleted. Same as deleted
-the users's cars must also be deleted.
+When deleting a car park, all its floors and parking spots are also deleted. The users's cars are also deleted.
 
 ## Car types
 
